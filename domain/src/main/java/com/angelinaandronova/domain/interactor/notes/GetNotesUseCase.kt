@@ -13,7 +13,7 @@ open class GetNotesUseCase @Inject constructor(
     postExecutionThread: PostExecutionThread
 ) : ObservableUseCase<List<Note>, Nothing?>(postExecutionThread) {
 
-    override fun getUseCaseObservable(params: Nothing?): Observable<List<Note>> {
+    public override fun getUseCaseObservable(params: Nothing?): Observable<List<Note>> {
         return notesRepository.getNotes()
     }
 }

@@ -13,7 +13,7 @@ open class GetNoteUseCase @Inject constructor(
     postExecutionThread: PostExecutionThread
 ) : ObservableUseCase<Note, GetNoteUseCase.Params>(postExecutionThread) {
 
-    override fun getUseCaseObservable(params: Params?): Observable<Note> {
+    public override fun getUseCaseObservable(params: Params?): Observable<Note> {
         if (params == null) throw IllegalArgumentException("Note noteId cannot be null")
         return notesRepository.getNote(params.noteId)
     }
