@@ -42,12 +42,17 @@ class GetNoteUseCaseTest {
     }
 
     @Test
-    fun `get a note returns a note by id`() {
+    fun `get a note returns a note for a given ID`() {
         val note = NoteDataFactory.makeNote()
         stubGetNotes(Observable.just(note))
         val testObserver = getNoteUseCase.getUseCaseObservable(
             GetNoteUseCase.Params.forNote(NoteDataFactory.randomLong())
         ).test()
         testObserver.assertValue(note)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun `get note throws exception when no ID is passed`() {
+        getNoteUseCase.getUseCaseObservable().test()
     }
 }

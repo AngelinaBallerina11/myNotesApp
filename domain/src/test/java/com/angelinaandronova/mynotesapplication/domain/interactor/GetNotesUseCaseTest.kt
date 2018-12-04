@@ -27,13 +27,13 @@ class GetNotesUseCaseTest {
         getNotesUseCase = GetNotesUseCase(notesRepository, postExecutionThread)
     }
 
-    private fun stubGetNotes(observable: Observable<List<Note>>) {
+    private fun stubGetNote(observable: Observable<List<Note>>) {
         whenever(notesRepository.getNotes()).thenReturn(observable)
     }
 
     @Test
     fun `get notes completes`() {
-        stubGetNotes(Observable.just(NoteDataFactory.makeNotesList(4)))
+        stubGetNote(Observable.just(NoteDataFactory.makeNotesList(4)))
         val testObserver = getNotesUseCase.getUseCaseObservable().test()
         testObserver.assertComplete()
     }
@@ -41,7 +41,7 @@ class GetNotesUseCaseTest {
     @Test
     fun `get notes returns data`() {
         val notesList = NoteDataFactory.makeNotesList(12)
-        stubGetNotes(Observable.just(notesList))
+        stubGetNote(Observable.just(notesList))
         val testObserver = getNotesUseCase.getUseCaseObservable().test()
         testObserver.assertValue(notesList)
     }

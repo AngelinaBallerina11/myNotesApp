@@ -13,7 +13,7 @@ open class EditNoteUseCase @Inject constructor(
     postExecutionThread: PostExecutionThread
 ) : CompletableUseCase<EditNoteUseCase.Params>(postExecutionThread) {
 
-    override fun getUseCaseCompletable(params: Params?): Completable {
+    public override fun getUseCaseCompletable(params: Params?): Completable {
         if (params == null) throw IllegalArgumentException("Note cannot be null")
         return notesRepository.editNote(params.note)
     }

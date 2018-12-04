@@ -12,7 +12,7 @@ open class DeleteNoteUseCase @Inject constructor(
     postExecutionThread: PostExecutionThread
 ) : ObservableUseCase<Long, DeleteNoteUseCase.Params>(postExecutionThread) {
 
-    override fun getUseCaseObservable(params: Params?): Observable<Long> {
+    public override fun getUseCaseObservable(params: Params?): Observable<Long> {
         if (params == null) throw IllegalArgumentException("Note id cannot be null")
         return notesRepository.deleteNote(params.noteId)
     }

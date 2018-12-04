@@ -13,9 +13,9 @@ open class CreateNoteUseCase @Inject constructor(
     postExecutionThread: PostExecutionThread
 ) : CompletableUseCase<CreateNoteUseCase.Params>(postExecutionThread) {
 
-    override fun getUseCaseCompletable(params: Params?): Completable {
+    public override fun getUseCaseCompletable(params: Params?): Completable {
         if (params == null) throw IllegalArgumentException("Note cannot be null")
-        return notesRepository.editNote(params.note)
+        return notesRepository.createNote(params.note)
     }
 
 
