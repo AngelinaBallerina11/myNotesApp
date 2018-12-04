@@ -14,5 +14,5 @@ interface NotesRepository {
     fun getNote(id: Long): Observable<Note>
     fun editNote(note: Note): Completable
     fun createNote(note: Note): Completable
-    fun deleteNotes(notes: List<Note>): Observable<List<Long>>
+    fun deleteNote(id: Long): Observable<Long>
 }

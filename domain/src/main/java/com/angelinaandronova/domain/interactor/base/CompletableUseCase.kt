@@ -1,27 +1,27 @@
-package com.angelinaandronova.domain.interactor
+package com.angelinaandronova.domain.interactor.base
 
 import com.angelinaandronova.domain.executor.PostExecutionThread
-import io.reactivex.Observable
+import io.reactivex.Completable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.reactivex.observers.DisposableObserver
+import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.schedulers.Schedulers
 
 /*
-*   Use Case base class
+*   Use Case base class - when nothing is returned
 * */
-abstract class ObservableUseCase<T, in Params> constructor(
+abstract class CompletableUseCase<in Params> constructor(
     private val postExecutionThread: PostExecutionThread
 ) {
 
     private val disposables = CompositeDisposable()
-    protected abstract fun getUseCaseObservable(params: Params? = null): Observable<T>
+    protected abstract fun getUseCaseCompletable(params: Params? = null): Completable
 
-    open fun execute(observer: DisposableObserver<T>, params: Params? = null) {
-        val observable = getUseCaseObservable(params)
+    open fun execute(observer: DisposableCompletableObserver, params: Params? = null) {
+        val completable = getUseCaseCompletable(params)
             .subscribeOn(Schedulers.io())
             .observeOn(postExecutionThread.scheduler)
-        addDisposable(observable.subscribeWith(observer))
+        addDisposable(completable.subscribeWith(observer))
     }
 
     private fun addDisposable(disposable: Disposable) {
