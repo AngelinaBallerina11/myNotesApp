@@ -1,5 +1,5 @@
 /*
-*   Contains versioning and dependencies which will be used in all modules fo the project
+*   Contains versioning and dependencies which will be used in all modules of the project
 * */
 
 ext {
@@ -16,11 +16,17 @@ ext {
     rxJavaVersion = '2.0.2'
     javaxAnnotationVersion = '1.0'
     javaxInjectVersion = '1'
+    rxJavaVersion = '2.0.2'
+    rxKotlinVersion = '2.1.0'
+    androidAnnotationsVersion = '21.0.3'
+    daggerVersion = '2.11'
 
     //Testing
     jUnitVersion = '4.12'
     assertJVersion = '3.8.0'
     mockitoKotlinVersion = '1.5.0'
+    robolectricVersion = '3.4.2'
+    mockitoVersion = '1.9.5'
 
     domainDependencies = [
             javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
@@ -34,4 +40,18 @@ ext {
             assertj:            "org.assertj:assertj-core:${assertJVersion}"
     ]
 
+    dataDependencies = [
+            rxKotlin:           "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
+            kotlin:             "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}",
+            javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject:        "javax.inject:javax.inject:${javaxInjectVersion}",
+    ]
+
+    dataTestDependencies = [
+            junit:              "junit:junit:${jUnitVersion}",
+            kotlinJUnit:        "org.jetbrains.kotlin:kotlin-test-junit:${kotlinVersion}",
+            assertj:            "org.assertj:assertj-core:${assertJVersion}",
+            mockito:            "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
+            robolectric:        "org.roborg.jetbrains.kotlin:kotlinolectric:robolectric:${robolectricVersion}"
+    ]
 }
