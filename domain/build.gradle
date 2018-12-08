@@ -13,5 +13,11 @@ dependencies {
     testImplementation domainTestDependencies.assertj
 }
 
+test {
+    afterTest { desc, result ->
+        logger.quiet "Executing test ${desc.name} [${desc.className}] with result: ${result.resultType}"
+    }
+}
+
 sourceCompatibility = "8"
 targetCompatibility = "8"
