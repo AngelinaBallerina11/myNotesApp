@@ -1,21 +1,35 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+}
 apply plugin: 'kotlin'
 
 dependencies {
     def dataDependencies = rootProject.ext.dataDependencies
     def dataTestDependencies = rootProject.ext.dataTestDependencies
-
-    compile project(':domain')
-
+    implementation project(':domain')
     implementation dataDependencies.javaxAnnotation
     implementation dataDependencies.kotlin
     implementation dataDependencies.javaxInject
     implementation dataDependencies.rxKotlin
-
     testImplementation dataTestDependencies.junit
     testImplementation dataTestDependencies.kotlinJUnit
     testImplementation dataTestDependencies.mockito
     testImplementation dataTestDependencies.assertj
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 sourceCompatibility = "8"
 targetCompatibility = "8"
+repositories {
+    mavenCentral()
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}

@@ -17,7 +17,7 @@ class NotesDataRepository @Inject constructor(
     private val cache: NotesCache
 ) : NotesRepository {
     override fun getNotes(): Observable<List<Note>> {
-        return observableDataOrigin()
+        return observableCacheState()
             .flatMap { factory.getDataStore(it.first, it.second).getNotes() }
             .flatMap { notes ->
                 factory.getCacheDataStore()
@@ -32,12 +32,12 @@ class NotesDataRepository @Inject constructor(
     }
 
     override fun getNote(id: Long): Observable<Note> {
-        return observableDataOrigin()
+        return observableCacheState()
             .flatMap { factory.getDataStore(it.first, it.second).getNote(id) }
             .map { mapper.mapFromEntity(it) }
     }
 
-    private fun observableDataOrigin(): Observable<Pair<Boolean, Boolean>> {
+    private fun observableCacheState(): Observable<Pair<Boolean, Boolean>> {
         return Observable.zip(cache.areNotesCached().toObservable(),
             cache.isNotesCacheExpired().toObservable(),
             BiFunction<Boolean, Boolean, Pair<Boolean, Boolean>> { areCached, isExpired -> Pair(areCached, isExpired) })
