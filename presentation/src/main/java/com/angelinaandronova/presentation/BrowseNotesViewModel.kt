@@ -29,7 +29,7 @@ class BrowseNotesViewModel @Inject constructor(
         super.onCleared()
     }
 
-    fun getNotesUseCase(): LiveData<Resource<List<NoteView>>> {
+    fun getNotes(): LiveData<Resource<List<NoteView>>> {
         return liveData
     }
 

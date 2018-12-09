@@ -4,29 +4,20 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 
-class NotesServiceFactory {
+object NotesServiceFactory {
 
-    companion object {
-        const val BASE_URL = "https://private-anon-9ddb26a8d7-note10.apiary-mock.com"
-    }
+
+    const val BASE_URL = "https://private-anon-9ddb26a8d7-note10.apiary-mock.com"
 
     fun makeNotesService(isDebug: Boolean): NotesService {
         val okHttpClient = makeOkHttpClient(
             makeLoggingInterceptor((isDebug))
         )
         return makeNotesService(okHttpClient)
-    }
-
-    private fun makeNotesService(okHttpClient: OkHttpClient): NotesService {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(okHttpClient)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build()
-        return retrofit.create(NotesService::class.java)
     }
 
     private fun makeOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
@@ -46,4 +37,17 @@ class NotesServiceFactory {
         }
         return logging
     }
+
+
+    private fun makeNotesService(okHttpClient: OkHttpClient): NotesService {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build()
+        return retrofit.create(NotesService::class.java)
+    }
+
+
 }

@@ -31,6 +31,7 @@ ext {
     glassfishAnnotationVersion = '10.0-b28'
     archCompVersion = '1.1.1'
     roomVersion = '1.0.0'
+    stetho = '1.5.0'
 
     //Testing
     jUnitVersion = '4.12'
@@ -164,6 +165,7 @@ ext {
             roomRuntime        : "android.arch.persistence.room:runtime:${archCompVersion}",
             roomCompiler       : "android.arch.persistence.room:compiler:${archCompVersion}",
             roomRxJava         : "android.arch.persistence.room:rxjava2:${archCompVersion}",
+            stetho             : "com.facebook.stetho:stetho:${stetho}",
     ]
 
     mobileUiTestDependencies = [

@@ -26,14 +26,14 @@ class NotesRemoteImpl @Inject constructor(
             .map { mapper.mapFromModel(it) }
     }
 
-    override fun editNote(note: NoteEntity): Observable<NoteEntity> {
-        return service.updateNote(note.id, mapper.mapToModel(note))
-            .map { mapper.mapFromModel(it) }
+    override fun editNote(note: NoteEntity): Completable {
+        return service
+            .updateNote(note.id, mapper.mapToModel(note))
     }
 
-    override fun createNote(note: NoteEntity): Observable<NoteEntity> {
-        return service.createNote(mapper.mapToModel(note))
-            .map { mapper.mapFromModel(it) }
+    override fun createNote(note: NoteEntity): Observable<Long> {
+        return service
+            .createNote(mapper.mapToModel(note))
     }
 
     override fun deleteNote(id: Long): Completable {

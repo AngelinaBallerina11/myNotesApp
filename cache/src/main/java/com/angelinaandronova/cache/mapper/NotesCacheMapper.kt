@@ -2,9 +2,10 @@ package com.angelinaandronova.cache.mapper
 
 import com.angelinaandronova.cache.model.CachedNote
 import com.angelinaandronova.data.model.NoteEntity
+import javax.inject.Inject
 
 
-class NotesCacheMapper : CacheMapper<CachedNote, NoteEntity> {
+class NotesCacheMapper @Inject constructor() : CacheMapper<CachedNote, NoteEntity> {
     override fun mapFromCached(cached: CachedNote): NoteEntity {
         return NoteEntity(cached.id!!, cached.title)
     }
