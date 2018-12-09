@@ -13,6 +13,7 @@ class NotesRemoteImpl @Inject constructor(
     private val service: NotesService,
     private val mapper: NotesResponseModelMapper
 ) : NotesRemote {
+
     override fun getNotes(): Observable<List<NoteEntity>> {
         return service
             .getNotes()

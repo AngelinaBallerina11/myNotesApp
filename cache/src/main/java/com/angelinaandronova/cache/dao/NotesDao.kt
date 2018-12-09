@@ -15,7 +15,7 @@ interface NotesDao {
     fun saveNotes(notes: List<CachedNote>)
 
     @Query("SELECT * FROM notes ORDER BY id")
-    fun getNotes(): Observable<List<NoteEntity>>
+    fun getNotes(): Observable<List<CachedNote>>
 
     @Query("SELECT * FROM notes WHERE id = :id")
     fun getNote(id: Long): Observable<CachedNote>

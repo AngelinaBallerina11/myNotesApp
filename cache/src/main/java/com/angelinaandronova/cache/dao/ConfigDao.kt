@@ -5,13 +5,13 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.angelinaandronova.cache.model.Config
-import io.reactivex.Flowable
+import io.reactivex.Single
 
 @Dao
 interface ConfigDao {
 
     @Query("SELECT * FROM config")
-    fun getConfig(): Flowable<Config>
+    fun getConfig(): Single<Config>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertConfig(config: Config)

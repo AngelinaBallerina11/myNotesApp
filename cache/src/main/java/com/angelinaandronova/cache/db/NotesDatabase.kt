@@ -20,7 +20,7 @@ import javax.inject.Inject
 )
 abstract class NotesDatabase @Inject constructor() : RoomDatabase() {
 
-    abstract fun cachedProjectsDao(): NotesDao
+    abstract fun cachedNotesDao(): NotesDao
 
     abstract fun configDao(): ConfigDao
 
