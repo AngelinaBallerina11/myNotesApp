@@ -12,7 +12,7 @@ interface NotesRepository {
 
     fun getNotes(): Observable<List<Note>>
     fun getNote(id: Long): Observable<Note>
-    fun editNote(note: Note): Completable
-    fun createNote(note: Note): Completable
-    fun deleteNote(id: Long): Observable<Long>
+    fun editNote(note: Note): Observable<Note>
+    fun createNote(note: Note): Observable<Note>
+    fun deleteNote(id: Long): Completable
 }

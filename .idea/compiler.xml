@@ -2,6 +2,7 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="cache" target="1.6" />
       <module name="data" target="1.6" />
     </bytecodeTargetLevel>
   </component>

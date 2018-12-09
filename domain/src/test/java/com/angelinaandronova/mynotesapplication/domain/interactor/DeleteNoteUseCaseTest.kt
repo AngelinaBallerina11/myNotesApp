@@ -8,6 +8,7 @@ import com.angelinaandronova.domain.repository.NotesRepository
 import com.angelinaandronova.mynotesapplication.domain.utils.NoteDataFactory
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.whenever
+import io.reactivex.Completable
 import io.reactivex.Observable
 import org.junit.Before
 import org.junit.Test
@@ -29,29 +30,20 @@ class DeleteNoteUseCaseTest {
         deleteNoteUseCase = DeleteNoteUseCase(notesRepository, postExecutionThread)
     }
 
-    private fun stubGetNotes(observable: Observable<Long>) {
-        whenever(notesRepository.deleteNote(any())).thenReturn(observable)
+    private fun stubGetNotes(completable: Completable) {
+        whenever(notesRepository.deleteNote(any())).thenReturn(completable)
     }
 
     @Test
     fun `delete a note completes`() {
-        stubGetNotes(Observable.just(NoteDataFactory.randomLong()))
-        val testObserver = deleteNoteUseCase.getUseCaseObservable(
+        stubGetNotes(Completable.complete())
+        val testObserver = deleteNoteUseCase.getUseCaseCompletable(
             DeleteNoteUseCase.Params.forNote(NoteDataFactory.randomLong())).test()
         testObserver.assertComplete()
     }
 
-    @Test
-    fun `delete a note returns deleted note ID`() {
-        val noteId = NoteDataFactory.randomLong()
-        stubGetNotes(Observable.just(noteId))
-        val testObserver = deleteNoteUseCase.getUseCaseObservable(
-            DeleteNoteUseCase.Params.forNote(NoteDataFactory.randomLong())).test()
-        testObserver.assertValue(noteId)
-    }
-
     @Test(expected = IllegalArgumentException::class)
     fun `delete note throws exception when no ID is passed`() {
-        deleteNoteUseCase.getUseCaseObservable().test()
+        deleteNoteUseCase.getUseCaseCompletable().test()
     }
 }
