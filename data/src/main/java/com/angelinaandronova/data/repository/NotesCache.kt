@@ -21,8 +21,8 @@ interface NotesCache {
     fun isNotesCacheExpired(): Single<Boolean>
 
     fun getNote(id: Long): Observable<NoteEntity>
-    fun editNote(note: NoteEntity): Completable
-    fun createNote(note: NoteEntity): Completable
-    fun deleteNote(id: Long): Observable<Long>
+    fun editNote(note: NoteEntity): Observable<NoteEntity>
+    fun createNote(note: NoteEntity): Observable<NoteEntity>
+    fun deleteNote(id: Long): Completable
 
 }

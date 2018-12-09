@@ -1,18 +1,18 @@
 package com.angelinaandronova.domain.interactor.notes
 
 import com.angelinaandronova.domain.executor.PostExecutionThread
-import com.angelinaandronova.domain.interactor.base.ObservableUseCase
+import com.angelinaandronova.domain.interactor.base.CompletableUseCase
 import com.angelinaandronova.domain.repository.NotesRepository
-import io.reactivex.Observable
+import io.reactivex.Completable
 import javax.inject.Inject
 
 
 open class DeleteNoteUseCase @Inject constructor(
     private val notesRepository: NotesRepository,
     postExecutionThread: PostExecutionThread
-) : ObservableUseCase<Long, DeleteNoteUseCase.Params>(postExecutionThread) {
+) : CompletableUseCase<DeleteNoteUseCase.Params>(postExecutionThread) {
 
-    public override fun getUseCaseObservable(params: Params?): Observable<Long> {
+    public override fun getUseCaseCompletable(params: Params?): Completable {
         if (params == null) throw IllegalArgumentException("Note id cannot be null")
         return notesRepository.deleteNote(params.noteId)
     }

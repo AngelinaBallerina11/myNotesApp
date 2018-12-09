@@ -43,27 +43,44 @@ class NotesDataRepository @Inject constructor(
             BiFunction<Boolean, Boolean, Pair<Boolean, Boolean>> { areCached, isExpired -> Pair(areCached, isExpired) })
     }
 
-    override fun editNote(note: Note): Completable {
+    override fun editNote(note: Note): Observable<Note> {
         return Observable.just(note)
             .map { mapper.mapToEntity(it) }
-            .flatMapCompletable { noteEntity ->
-                factory.getCacheDataStore().editNote(noteEntity)
-                    .andThen { factory.getRemoteDataStore().editNote(noteEntity) }
+            .flatMap { noteEntity ->
+                factory
+                    .getRemoteDataStore()
+                    .editNote(noteEntity)
+            }
+            .flatMap { note ->
+                factory
+                    .getCacheDataStore()
+                    .editNote(note)
+                    .map {
+                        mapper.mapFromEntity(it)
+                    }
             }
     }
 
-    override fun createNote(note: Note): Completable {
-        return Observable.just(note)
+    override fun createNote(note: Note): Observable<Note> {
+        return Observable
+            .just(note)
             .map { mapper.mapToEntity(it) }
-            .flatMapCompletable { noteEntity ->
-                factory.getCacheDataStore().createNote(noteEntity)
-                    .andThen { factory.getRemoteDataStore().createNote(noteEntity) }
+            .flatMap { noteEntity ->
+                factory
+                    .getCacheDataStore()
+                    .createNote(noteEntity)
+            }
+            .flatMap { note ->
+                factory
+                    .getRemoteDataStore()
+                    .createNote(note)
+                    .map { mapper.mapFromEntity(it) }
             }
     }
 
-    override fun deleteNote(id: Long): Observable<Long> {
-        return Observable.just(id)
-            .flatMap(factory.getCacheDataStore()::deleteNote)
-            .flatMap(factory.getRemoteDataStore()::deleteNote)
+    override fun deleteNote(id: Long): Completable {
+        val deleteFromCache = factory.getCacheDataStore().deleteNote(id)
+        val deleteFromServer = factory.getRemoteDataStore().deleteNote(id)
+        return Completable.mergeArray(deleteFromCache, deleteFromServer)
     }
 }

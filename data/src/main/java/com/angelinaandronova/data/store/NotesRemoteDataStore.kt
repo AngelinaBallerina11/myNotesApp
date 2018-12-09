@@ -25,15 +25,15 @@ class NotesRemoteDataStore @Inject constructor(private val remote: NotesRemote) 
         return remote.getNote(id)
     }
 
-    override fun editNote(note: NoteEntity): Completable {
+    override fun editNote(note: NoteEntity): Observable<NoteEntity> {
         return remote.editNote(note)
     }
 
-    override fun createNote(note: NoteEntity): Completable {
+    override fun createNote(note: NoteEntity): Observable<NoteEntity> {
         return remote.createNote(note)
     }
 
-    override fun deleteNote(id: Long): Observable<Long> {
+    override fun deleteNote(id: Long): Completable {
         return remote.deleteNote(id)
     }
 }

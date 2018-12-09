@@ -2,11 +2,12 @@ package com.angelinaandronova.mynotesapplication.domain.interactor
 
 import com.angelinaandronova.domain.executor.PostExecutionThread
 import com.angelinaandronova.domain.interactor.notes.EditNoteUseCase
+import com.angelinaandronova.domain.model.Note
 import com.angelinaandronova.domain.repository.NotesRepository
 import com.angelinaandronova.mynotesapplication.domain.utils.NoteDataFactory
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.whenever
-import io.reactivex.Completable
+import io.reactivex.Observable
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
@@ -27,20 +28,21 @@ class EditNoteUseCaseTest {
         editNoteUseCase = EditNoteUseCase(notesRepository, postExecutionThread)
     }
 
-    private fun stubEditNote(completable: Completable) {
-        whenever(notesRepository.editNote(any())).thenReturn(completable)
+    private fun stubEditNote(observable: Observable<Note>) {
+        whenever(notesRepository.editNote(any())).thenReturn(observable)
     }
 
     @Test
     fun `editing a note completes`() {
-        stubEditNote(Completable.complete())
-        val testObserver = editNoteUseCase.getUseCaseCompletable(
-            EditNoteUseCase.Params.forNote(NoteDataFactory.makeNote())).test()
+        stubEditNote(Observable.just(NoteDataFactory.makeNote()))
+        val testObserver = editNoteUseCase.getUseCaseObservable(
+            EditNoteUseCase.Params.forNote(NoteDataFactory.makeNote())
+        ).test()
         testObserver.assertComplete()
     }
 
     @Test(expected = IllegalArgumentException::class)
     fun `edit note throws exception when no note is passed`() {
-        editNoteUseCase.getUseCaseCompletable().test()
+        editNoteUseCase.getUseCaseObservable().test()
     }
 }
