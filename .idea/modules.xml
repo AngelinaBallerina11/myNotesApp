@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/cache/cache.iml" filepath="$PROJECT_DIR$/cache/cache.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/data/data.iml" filepath="$PROJECT_DIR$/.idea/modules/data/data.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/domain/domain.iml" filepath="$PROJECT_DIR$/.idea/modules/domain/domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mobile_ui/mobile_ui.iml" filepath="$PROJECT_DIR$/mobile_ui/mobile_ui.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/myApps.iml" filepath="$PROJECT_DIR$/.idea/modules/myApps.iml" />
       <module fileurl="file://$PROJECT_DIR$/presentation/presentation.iml" filepath="$PROJECT_DIR$/presentation/presentation.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/remote/remote.iml" filepath="$PROJECT_DIR$/.idea/modules/remote/remote.iml" />
