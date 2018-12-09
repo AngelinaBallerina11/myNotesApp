@@ -11,7 +11,7 @@ interface NotesDataStore {
     fun saveNotes(notes: List<NoteEntity>): Completable
     fun getNotes(): Observable<List<NoteEntity>>
     fun getNote(id: Long): Observable<NoteEntity>
-    fun editNote(note: NoteEntity): Observable<NoteEntity>
-    fun createNote(note: NoteEntity): Observable<NoteEntity>
+    fun editNote(note: NoteEntity): Completable
+    fun createNote(note: NoteEntity): Observable<Long>
     fun deleteNote(id: Long): Completable
 }

@@ -21,10 +21,10 @@ interface NotesDao {
     fun getNote(id: Long): Observable<CachedNote>
 
     @Update
-    fun editNote(note: CachedNote): Observable<CachedNote>
+    fun editNote(note: CachedNote)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun createNote(note: CachedNote): Observable<CachedNote>
+    fun createNote(note: CachedNote): Long
 
     @Query("DELETE FROM notes WHERE id = :id")
     fun deleteNote(id: Long)

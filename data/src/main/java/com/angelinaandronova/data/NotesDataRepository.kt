@@ -1,6 +1,7 @@
 package com.angelinaandronova.data
 
 import com.angelinaandronova.data.mapper.NoteMapper
+import com.angelinaandronova.data.model.NoteEntity
 import com.angelinaandronova.data.repository.NotesCache
 import com.angelinaandronova.data.store.NotesDataStoreFactory
 import com.angelinaandronova.domain.model.Note
@@ -43,38 +44,29 @@ class NotesDataRepository @Inject constructor(
             BiFunction<Boolean, Boolean, Pair<Boolean, Boolean>> { areCached, isExpired -> Pair(areCached, isExpired) })
     }
 
-    override fun editNote(note: Note): Observable<Note> {
-        return Observable.just(note)
-            .map { mapper.mapToEntity(it) }
-            .flatMap { noteEntity ->
-                factory
-                    .getRemoteDataStore()
-                    .editNote(noteEntity)
-            }
-            .flatMap { note ->
-                factory
-                    .getCacheDataStore()
-                    .editNote(note)
-                    .map {
-                        mapper.mapFromEntity(it)
-                    }
-            }
+    override fun editNote(note: Note): Completable {
+        val entity = mapper.mapToEntity(note)
+        val editCache = factory.getCacheDataStore().editNote(entity)
+        val editRemote = factory.getRemoteDataStore().editNote(entity)
+        return Completable.mergeArray(editCache, editRemote)
     }
 
-    override fun createNote(note: Note): Observable<Note> {
+    override fun createNote(note: Note): Observable<Long> {
         return Observable
             .just(note)
             .map { mapper.mapToEntity(it) }
-            .flatMap { noteEntity ->
-                factory
-                    .getCacheDataStore()
-                    .createNote(noteEntity)
-            }
             .flatMap { note ->
                 factory
                     .getRemoteDataStore()
                     .createNote(note)
-                    .map { mapper.mapFromEntity(it) }
+            }
+            .map {
+                id -> NoteEntity(id, note.title)
+            }
+            .flatMap { createdNote ->
+                factory
+                    .getCacheDataStore()
+                    .createNote(createdNote)
             }
     }
 

@@ -7,6 +7,7 @@ import com.angelinaandronova.domain.repository.NotesRepository
 import com.angelinaandronova.mynotesapplication.domain.utils.NoteDataFactory
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.whenever
+import io.reactivex.Completable
 import io.reactivex.Observable
 import org.junit.Before
 import org.junit.Test
@@ -28,14 +29,14 @@ class EditNoteUseCaseTest {
         editNoteUseCase = EditNoteUseCase(notesRepository, postExecutionThread)
     }
 
-    private fun stubEditNote(observable: Observable<Note>) {
-        whenever(notesRepository.editNote(any())).thenReturn(observable)
+    private fun stubEditNote(completable: Completable) {
+        whenever(notesRepository.editNote(any())).thenReturn(completable)
     }
 
     @Test
     fun `editing a note completes`() {
-        stubEditNote(Observable.just(NoteDataFactory.makeNote()))
-        val testObserver = editNoteUseCase.getUseCaseObservable(
+        stubEditNote(Completable.complete())
+        val testObserver = editNoteUseCase.getUseCaseCompletable(
             EditNoteUseCase.Params.forNote(NoteDataFactory.makeNote())
         ).test()
         testObserver.assertComplete()
@@ -43,6 +44,6 @@ class EditNoteUseCaseTest {
 
     @Test(expected = IllegalArgumentException::class)
     fun `edit note throws exception when no note is passed`() {
-        editNoteUseCase.getUseCaseObservable().test()
+        editNoteUseCase.getUseCaseCompletable().test()
     }
 }

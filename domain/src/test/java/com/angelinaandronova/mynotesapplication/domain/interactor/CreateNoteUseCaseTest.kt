@@ -28,13 +28,13 @@ class CreateNoteUseCaseTest {
         createNoteUseCase = CreateNoteUseCase(notesRepository, postExecutionThread)
     }
 
-    private fun stubCreateNote(observable: Observable<Note>) {
+    private fun stubCreateNote(observable: Observable<Long>) {
         whenever(notesRepository.createNote(any())).thenReturn(observable)
     }
 
     @Test
     fun `creating a note completes`() {
-        stubCreateNote(Observable.just(NoteDataFactory.makeNote()))
+        stubCreateNote(Observable.just(NoteDataFactory.randomLong()))
         val testObserver = createNoteUseCase.getUseCaseObservable(
             CreateNoteUseCase.Params.forNote(NoteDataFactory.makeNote())
         ).test()

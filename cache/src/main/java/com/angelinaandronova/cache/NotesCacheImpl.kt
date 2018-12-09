@@ -75,22 +75,20 @@ constructor(
             }
     }
 
-    override fun editNote(note: NoteEntity): Observable<NoteEntity> {
-        return notesDatabase
-            .cachedNotesDao()
-            .editNote(mapper.mapToCached(note))
-            .map {
-                mapper.mapFromCached(it)
-            }
+    override fun editNote(note: NoteEntity): Completable {
+        return Completable.defer {
+            notesDatabase
+                .cachedNotesDao()
+                .editNote(mapper.mapToCached(note))
+            Completable.complete()
+        }
     }
 
-    override fun createNote(note: NoteEntity): Observable<NoteEntity> {
-        return notesDatabase
+    override fun createNote(note: NoteEntity): Observable<Long> {
+        val createdNoteId = notesDatabase
             .cachedNotesDao()
             .createNote(mapper.mapToCached(note))
-            .map {
-                mapper.mapFromCached(it)
-            }
+        return Observable.just(createdNoteId)
     }
 
     override fun deleteNote(id: Long): Completable {

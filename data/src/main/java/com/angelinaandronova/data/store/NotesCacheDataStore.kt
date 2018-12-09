@@ -19,9 +19,9 @@ class NotesCacheDataStore @Inject constructor(private val notesCache: NotesCache
 
     override fun getNote(id: Long): Observable<NoteEntity> = notesCache.getNote(id)
 
-    override fun editNote(note: NoteEntity): Observable<NoteEntity> = notesCache.editNote(note)
+    override fun editNote(note: NoteEntity): Completable = notesCache.editNote(note)
 
-    override fun createNote(note: NoteEntity): Observable<NoteEntity> = notesCache.createNote(note)
+    override fun createNote(note: NoteEntity): Observable<Long> = notesCache.createNote(note)
 
     override fun deleteNote(id: Long): Completable = notesCache.deleteNote(id)
 }
