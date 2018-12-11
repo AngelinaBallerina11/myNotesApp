@@ -13,8 +13,9 @@
         <TextView
                 android:id="@+id/note_title"
                 android:textSize="16sp"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/note_text"
                 tools:text="Hello"
+                android:fontFamily="serif-monospace"
                 android:padding="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

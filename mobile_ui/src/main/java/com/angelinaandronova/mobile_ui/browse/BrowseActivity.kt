@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.angelinaandronova.mobile_ui.R
+import com.angelinaandronova.mobile_ui.detail.NoteDialogFragment
 import com.angelinaandronova.mobile_ui.injection.ViewModelFactory
 import com.angelinaandronova.mobile_ui.mapper.NotesViewMapper
 import com.angelinaandronova.mobile_ui.model.NoteUIModel
@@ -38,21 +39,26 @@ class BrowseActivity : AppCompatActivity() {
             .get(BrowseNotesViewModel::class.java)
 
         initRecyclerview()
-    }
 
-    private fun initRecyclerview() {
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = browseAdapter
-    }
-
-    override fun onStart() {
-        super.onStart()
         browseViewModel.getNotes().observe(this,
             Observer<Resource<List<NoteView>>> {
                 it?.let {
                     handleDataState(it)
                 }
-            })
+            }
+        )
+
+        add_note_fab.setOnClickListener { onAddNoteClicked() }
+    }
+
+    private fun onAddNoteClicked() {
+        val dialog = NoteDialogFragment()
+        dialog.show(supportFragmentManager, "addNoteFragment")
+    }
+
+    private fun initRecyclerview() {
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = browseAdapter
     }
 
     private fun handleDataState(resource: Resource<List<NoteView>>) {
