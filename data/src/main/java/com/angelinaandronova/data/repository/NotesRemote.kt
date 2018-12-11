@@ -10,6 +10,6 @@ interface NotesRemote {
     fun getNotes(): Observable<List<NoteEntity>>
     fun getNote(id: Long): Observable<NoteEntity>
     fun editNote(note: NoteEntity): Completable
-    fun createNote(note: NoteEntity): Observable<Long>
+    fun createNoteRemote(note: NoteEntity): Observable<NoteEntity>
     fun deleteNote(id: Long): Completable
 }

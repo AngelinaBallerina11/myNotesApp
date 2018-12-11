@@ -5,10 +5,15 @@ import com.angelinaandronova.data.repository.NotesCache
 import com.angelinaandronova.data.repository.NotesDataStore
 import io.reactivex.Completable
 import io.reactivex.Observable
+import java.lang.UnsupportedOperationException
 import javax.inject.Inject
 
 
 class NotesCacheDataStore @Inject constructor(private val notesCache: NotesCache) : NotesDataStore {
+    override fun createNoteRemote(note: NoteEntity): Observable<NoteEntity> {
+        throw UnsupportedOperationException("Remote method - not implemented in cache")
+    }
+
     override fun clearNotes(): Completable = notesCache.clearNotes()
 
     override fun saveNotes(notes: List<NoteEntity>): Completable =

@@ -1,7 +1,6 @@
 package com.angelinaandronova.data
 
 import com.angelinaandronova.data.mapper.NoteMapper
-import com.angelinaandronova.data.model.NoteEntity
 import com.angelinaandronova.data.repository.NotesCache
 import com.angelinaandronova.data.store.NotesDataStoreFactory
 import com.angelinaandronova.domain.model.Note
@@ -55,13 +54,10 @@ class NotesDataRepository @Inject constructor(
         return Observable
             .just(note)
             .map { mapper.mapToEntity(it) }
-            .flatMap { note ->
+            .flatMap {
                 factory
                     .getRemoteDataStore()
-                    .createNote(note)
-            }
-            .map {
-                id -> NoteEntity(id, note.title)
+                    .createNoteRemote(it)
             }
             .flatMap { createdNote ->
                 factory

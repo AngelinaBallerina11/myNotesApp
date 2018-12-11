@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.angelinaandronova.mobile_ui.injection.ViewModelFactory
 import com.angelinaandronova.presentation.BrowseNotesViewModel
+import com.angelinaandronova.presentation.NoteDetailViewModel
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
@@ -17,6 +18,11 @@ abstract class PresentationModule {
     @IntoMap
     @ViewModelKey(BrowseNotesViewModel::class)
     abstract fun bindBrowseNotesViewModel(viewModel: BrowseNotesViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(NoteDetailViewModel::class)
+    abstract fun dinsNoteDetailViewModel(viewModel: NoteDetailViewModel): ViewModel
 
 
     @Binds

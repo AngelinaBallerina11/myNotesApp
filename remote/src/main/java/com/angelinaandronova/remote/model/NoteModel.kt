@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 class NoteModel(
     @SerializedName("id")
-    val id: Long,
+    val id: Long?,
     @SerializedName("title")
     val title: String) {
 }

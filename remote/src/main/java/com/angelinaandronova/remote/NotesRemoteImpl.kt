@@ -3,6 +3,7 @@ package com.angelinaandronova.remote
 import com.angelinaandronova.data.model.NoteEntity
 import com.angelinaandronova.data.repository.NotesRemote
 import com.angelinaandronova.remote.mapper.NotesResponseModelMapper
+import com.angelinaandronova.remote.model.NoteModel
 import com.angelinaandronova.remote.service.NotesService
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -31,9 +32,10 @@ class NotesRemoteImpl @Inject constructor(
             .updateNote(note.id, mapper.mapToModel(note))
     }
 
-    override fun createNote(note: NoteEntity): Observable<Long> {
+    override fun createNoteRemote(note: NoteEntity): Observable<NoteEntity> {
         return service
             .createNote(mapper.mapToModel(note))
+            .map { mapper.mapFromModel(it) }
     }
 
     override fun deleteNote(id: Long): Completable {

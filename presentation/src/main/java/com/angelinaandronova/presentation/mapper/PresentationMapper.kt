@@ -1,8 +1,8 @@
 package com.angelinaandronova.presentation.mapper
 
 
-interface Mapper<out V, in D> {
+interface PresentationMapper<V, D> {
 
     fun mapToView(domain: D): V
-
+    fun mapToDomain(presentation: V): D
 }

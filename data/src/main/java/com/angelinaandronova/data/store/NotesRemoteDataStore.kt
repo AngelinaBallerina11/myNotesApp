@@ -9,6 +9,11 @@ import javax.inject.Inject
 
 
 class NotesRemoteDataStore @Inject constructor(private val remote: NotesRemote) : NotesDataStore {
+
+    override fun createNoteRemote(note: NoteEntity): Observable<NoteEntity> {
+        return remote.createNoteRemote(note)
+    }
+
     override fun clearNotes(): Completable {
         throw UnsupportedOperationException("Clearing notes is not supported")
     }
@@ -30,7 +35,7 @@ class NotesRemoteDataStore @Inject constructor(private val remote: NotesRemote) 
     }
 
     override fun createNote(note: NoteEntity): Observable<Long> {
-        return remote.createNote(note)
+        throw UnsupportedOperationException("Remote returns whole note")
     }
 
     override fun deleteNote(id: Long): Completable {

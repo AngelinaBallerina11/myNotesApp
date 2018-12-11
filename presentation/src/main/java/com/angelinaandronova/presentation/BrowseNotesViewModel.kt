@@ -35,10 +35,10 @@ class BrowseNotesViewModel @Inject constructor(
 
     private fun fetchNotes() {
         liveData.postValue(Resource(ResourceState.LOADING, null, null))
-        getNotes.execute(ProjectsSubscriber())
+        getNotes.execute(BrowseNotesSubscriber())
     }
 
-    inner class ProjectsSubscriber : DisposableObserver<List<Note>>() {
+    inner class BrowseNotesSubscriber : DisposableObserver<List<Note>>() {
         override fun onNext(list: List<Note>) {
             liveData.postValue(
                 Resource(

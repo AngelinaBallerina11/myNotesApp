@@ -13,5 +13,6 @@ interface NotesDataStore {
     fun getNote(id: Long): Observable<NoteEntity>
     fun editNote(note: NoteEntity): Completable
     fun createNote(note: NoteEntity): Observable<Long>
+    fun createNoteRemote(note: NoteEntity): Observable<NoteEntity>
     fun deleteNote(id: Long): Completable
 }

@@ -3,7 +3,7 @@ package com.angelinaandronova.mobile_ui.browse
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +20,7 @@ import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_browse.*
 import javax.inject.Inject
 
-class BrowseActivity : AppCompatActivity() {
+class BrowseActivity : FragmentActivity() {
 
     @Inject
     lateinit var browseAdapter: BrowseAdapter

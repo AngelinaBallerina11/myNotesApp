@@ -25,13 +25,13 @@ interface NotesService {
     fun getNotes(): Observable<List<NoteModel>>
 
     @POST(NOTES_ENDPOINT)
-    fun createNote(@Body note: NoteModel): Observable<Long>
+    fun createNote(@Body note: NoteModel): Observable<NoteModel>
 
     @GET("$NOTES_ENDPOINT/{id}")
     fun retrieveNote(id: Long): Observable<NoteModel>
 
     @PUT("$NOTES_ENDPOINT/{id}")
-    fun updateNote(id: Long, note: NoteModel): Completable
+    fun updateNote(id: Long?, note: NoteModel): Completable
 
     @DELETE("$NOTES_ENDPOINT/{id}")
     fun deleteNote(id: Long): Completable
