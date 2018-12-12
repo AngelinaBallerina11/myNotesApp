@@ -3,11 +3,12 @@ package com.angelinaandronova.mobile_ui.browse
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.fragment.app.FragmentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.*
 import com.angelinaandronova.mobile_ui.R
+import com.angelinaandronova.mobile_ui.browse.swipe.RecyclerItemTouchHelper
 import com.angelinaandronova.mobile_ui.detail.NoteDialogFragment
 import com.angelinaandronova.mobile_ui.injection.ViewModelFactory
 import com.angelinaandronova.mobile_ui.mapper.NotesViewMapper
@@ -20,9 +21,10 @@ import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_browse.*
 import javax.inject.Inject
 
-class BrowseActivity : FragmentActivity() {
 
-    @Inject
+class BrowseActivity : AppCompatActivity(), OnNoteClickListener,
+    RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+
     lateinit var browseAdapter: BrowseAdapter
     @Inject
     lateinit var mapper: NotesViewMapper
@@ -58,7 +60,12 @@ class BrowseActivity : FragmentActivity() {
 
     private fun initRecyclerview() {
         recyclerView.layoutManager = LinearLayoutManager(this)
+        browseAdapter = BrowseAdapter(this)
         recyclerView.adapter = browseAdapter
+        recyclerView.itemAnimator = DefaultItemAnimator()
+        recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        val itemTouchHelperCallback = RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this)
+        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView)
     }
 
     private fun handleDataState(resource: Resource<List<NoteView>>) {
@@ -76,7 +83,7 @@ class BrowseActivity : FragmentActivity() {
             ResourceState.ERROR -> {
                 progressBar.visibility = View.GONE
                 recyclerView.visibility = View.GONE
-                Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.error_msg), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -84,11 +91,24 @@ class BrowseActivity : FragmentActivity() {
     private fun setupScreenForSuccess(notes: List<NoteUIModel>?) {
         progressBar.visibility = View.GONE
         notes?.let {
-            browseAdapter.notes = it
+            browseAdapter.notes = ArrayList(it)
             browseAdapter.notifyDataSetChanged()
             recyclerView.visibility = View.VISIBLE
         }
     }
 
+    override fun onNoteClick(note: NoteUIModel) {
+        NoteDialogFragment.newInstance(noteId = note.id!!)
+            .show(supportFragmentManager, "editNote")
+    }
 
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int, position: Int) {
+        browseViewModel.delete(position)
+        browseAdapter.removeNote(position)
+    }
+
+}
+
+interface OnNoteClickListener {
+    fun onNoteClick(note: NoteUIModel)
 }

@@ -3,7 +3,9 @@ package com.angelinaandronova.cache.dao
 import androidx.room.*
 import com.angelinaandronova.cache.model.CachedNote
 import com.angelinaandronova.data.model.NoteEntity
+import io.reactivex.Flowable
 import io.reactivex.Observable
+import io.reactivex.Single
 
 @Dao
 interface NotesDao {

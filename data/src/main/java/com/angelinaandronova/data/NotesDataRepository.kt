@@ -18,7 +18,11 @@ class NotesDataRepository @Inject constructor(
 ) : NotesRepository {
     override fun getNotes(): Observable<List<Note>> {
         return observableCacheState()
-            .flatMap { factory.getDataStore(it.first, it.second).getNotes() }
+            .flatMap {
+                factory.getDataStore(it.first, it.second)
+                    .getNotes()
+                    .distinctUntilChanged()
+            }
             .flatMap { notes ->
                 factory.getCacheDataStore()
                     .saveNotes(notes)
